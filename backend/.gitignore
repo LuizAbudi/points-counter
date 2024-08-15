@@ -1,0 +1,39 @@
+# Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local environment variables
+.env
+
+# FastAPI-specific files
+*.log
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# Docker files
+*.dockerignore
+Dockerfile
+docker-compose.yml
+
+# System files
+.DS_Store
+Thumbs.db
+
+# pytest cache
+.cache/
