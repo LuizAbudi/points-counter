@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import './App.css';
 import { Display } from "react-7-segment-display";
 
-const socket = io('http://localhost:8000');
+const socket = io('http://127.0.0.1:5000');
 
 const App = () => {
   const [teamAScore, setTeamAScore] = useState(0);
@@ -12,15 +12,15 @@ const App = () => {
   const [teamBScoreGame, setTeamBScoreGame] = useState(0);
 
   useEffect(() => {
-    socket.on('update_score', (data) => {
-      setTeamAScore(data.team_a_score);
-      setTeamBScore(data.team_b_score);
-      setTeamAScoreGame(data.team_a_score_game);
-      setTeamBScoreGame(data.team_b_score_game);
+    socket.on('placar_atualizado', (data) => {
+      setTeamAScore(data.jogador1);
+      setTeamBScore(data.jogador2);
+      setTeamAScoreGame(data.jogos1);
+      setTeamBScoreGame(data.jogos2);
     });
 
     return () => {
-      socket.off('update_score');
+      socket.off('placar_atualizado');
     };
   }, []);
 
