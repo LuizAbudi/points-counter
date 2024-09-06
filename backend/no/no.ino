@@ -38,7 +38,7 @@ void setup() {
   }
 
   radio.setPALevel(RF24_PA_MAX);  // RF24_PA_MAX is default.
-  radio.setChannel(100);
+  radio.setChannel(52);
   radio.setPayloadSize(sizeof(MENSAGEM));
   radio.setAutoAck(false);
   radio.setCRCLength(RF24_CRC_DISABLED);
@@ -57,7 +57,7 @@ bool aguardaMsg(int tipo) {
   while (millis() - tempoInicio < TIMEOUT) {
     if (radio.available()) {
       uint8_t bytes = radio.getPayloadSize();
-      radio.read(&MENSAGEM[POS_REDE], bytes);
+      radio.read(&MENSAGEM[0], bytes);
       if (MENSAGEM[POS_DESTINO] == ID_NO && MENSAGEM[POS_TIPO] == tipo) {
         radio.stopListening();
         return true;

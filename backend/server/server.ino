@@ -10,6 +10,8 @@
 #define RTS 2
 #define CTS 3
 
+#define TIMEOUT 5000  // milisegundos
+
 #define JOGADOR1 4
 #define JOGADOR2 9
 
@@ -42,7 +44,7 @@ void setup() {
   }
 
   radio.setPALevel(RF24_PA_MAX);
-  radio.setChannel(100);
+  radio.setChannel(52);
   radio.setPayloadSize(sizeof(MENSAGEM));
   radio.setAutoAck(false);
   radio.setCRCLength(RF24_CRC_DISABLED);
@@ -104,7 +106,7 @@ int calcularPontuacao(int pontosJogador) {
 bool aguardaMsg(int tipo) {
   radio.startListening();
   unsigned long tempoInicio = millis();
-  while (millis() - tempoInicio < 1000) {
+  while (millis() - tempoInicio < TIMEOUT) {
     if (radio.available()) {
       uint8_t bytes = radio.getPayloadSize();
       radio.read(&MENSAGEM[0], bytes);
@@ -148,9 +150,7 @@ void loop() {
     uint8_t bytes = radio.getPayloadSize();
     radio.read(&MENSAGEM[0], bytes);
 
-    // Se a rede for a minha (12)
     if (MENSAGEM[POS_REDE] == REDE && (MENSAGEM[POS_JOGADOR] == JOGADOR1 || MENSAGEM[POS_JOGADOR] == JOGADOR2)) {
-      // Se o destino da mensagem for minha origem e o controle for RTS
       if (MENSAGEM[POS_DESTINO] == ID_SERVER && MENSAGEM[POS_TIPO] == RTS) {
         bool report = sendPacket(&MENSAGEM[0], sizeof(MENSAGEM), MENSAGEM[POS_ORIGEM], CTS);
         report = aguardaMsg(MSG);

@@ -6,17 +6,17 @@ import { Display } from "react-7-segment-display";
 const socket = io('http://127.0.0.1:5000');
 
 const App = () => {
-  const [teamAScore, setTeamAScore] = useState(0);
-  const [teamBScore, setTeamBScore] = useState(0);
-  const [teamAScoreGame, setTeamAScoreGame] = useState(0);
-  const [teamBScoreGame, setTeamBScoreGame] = useState(0);
+  const [pontosJogador1, setPontosJogador1] = useState(0);
+  const [pontosJogador2, setPontosJogador2] = useState(0);
+  const [jogosJogador1, setJogosJogador1] = useState(0);
+  const [jogosJogador2, setJogosJogador2] = useState(0);
 
   useEffect(() => {
     socket.on('placar_atualizado', (data) => {
-      setTeamAScore(data.jogador1);
-      setTeamBScore(data.jogador2);
-      setTeamAScoreGame(data.jogos1);
-      setTeamBScoreGame(data.jogos2);
+      setPontosJogador1(data.jogador1);
+      setPontosJogador2(data.jogador2);
+      setJogosJogador1(data.jogos1);
+      setJogosJogador2(data.jogos2);
     });
 
     return () => {
@@ -26,20 +26,20 @@ const App = () => {
 
   return (
     <div className="app">
-      <h1>Scoreboard</h1>
+      <h1>Placar</h1>
       <div className="scoreboard">
-        <div className="score-sectionA">
-          <h2>Team A</h2>
-          <Display value={teamAScore} />
+        <div className="score-section1">
+          <h2>Jogador1</h2>
+          <Display value={pontosJogador1} />
           <div className="scoreGame">
-            <Display value={teamAScoreGame} height={100} count={1} />
+            <Display value={jogosJogador1} height={100} count={1} />
           </div>
         </div>
-        <div className="score-sectionB">
-          <h2>Team B</h2>
-          <Display value={teamBScore} />
+        <div className="score-section2">
+          <h2>Jogador 2</h2>
+          <Display value={pontosJogador2} />
           <div className="scoreGame">
-            <Display value={teamBScoreGame} height={100} count={1} />
+            <Display value={jogosJogador2} height={100} count={1} />
           </div>
         </div>
       </div>
